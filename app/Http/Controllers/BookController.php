@@ -47,7 +47,8 @@ class BookController extends Controller
         'pengarang' => $request->pengarang
     ]);
     // alihkan halaman ke halaman home
-    return redirect('/books');    }
+    return redirect('/books');
+    }
 
     /**
      * Display the specified resource.
@@ -59,38 +60,31 @@ class BookController extends Controller
     {
         //
     }
+    public function hapus($id)
+    {
+        //menghapus data
+        DB::table('bukus')->where('id',$id)->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+        // alihkan halaman
+        return redirect('/books');
+    }
+
     public function edit($id)
     {
-        //
+        $bukus = DB::table('bukus')->where('id',$id)->get();
+
+        return view('edit',['bukus'=>$bukus]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        DB::table('bukus')->where('id',$request->id)->update([
+        'judul' => $request->judul,
+        'penerbit' => $request->penerbit,
+        'tahun_terbit' => $request->tahun_terbit,
+        'pengarang' => $request->pengarang
+    ]);
+    // alihkan halaman ke halaman home
+    return redirect('/books');
     }
 }
